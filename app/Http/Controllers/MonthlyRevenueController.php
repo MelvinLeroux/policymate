@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MonthlyRevenueController extends Controller
@@ -22,11 +20,11 @@ class MonthlyRevenueController extends Controller
 
             if ($monthlyRevenue->isEmpty()) {
                 return response()->json([
-                    'message' => "No orders found for year {$year}."
+                    'message' => "No orders found for year {$year}.",
                 ], 404);
             }
 
-            $formatted = $monthlyRevenue->map(fn($item) => [
+            $formatted = $monthlyRevenue->map(fn ($item) => [
                 'month' => $item->month,
                 'revenue' => number_format($item->revenue, 2),
             ]);
@@ -37,8 +35,9 @@ class MonthlyRevenueController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error("Failed to fetch monthly revenue for year {$year}: {$e->getMessage()}");
+
             return response()->json([
-                'message' => 'An unexpected error occurred while calculating monthly revenue.'
+                'message' => 'An unexpected error occurred while calculating monthly revenue.',
             ], 500);
         }
     }

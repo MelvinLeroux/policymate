@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -22,11 +21,11 @@ class TopProductController extends Controller
 
             if ($products->isEmpty()) {
                 return response()->json([
-                    'message' => 'No products found.'
+                    'message' => 'No products found.',
                 ], 404);
             }
 
-            $formatted = $products->map(fn($product) => [
+            $formatted = $products->map(fn ($product) => [
                 'sku' => $product->sku,
                 'name' => $product->name,
                 'revenue' => number_format($product->revenue, 2),
@@ -38,8 +37,9 @@ class TopProductController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error("Failed to fetch top products: {$e->getMessage()}");
+
             return response()->json([
-                'message' => 'An unexpected error occurred while fetching top products.'
+                'message' => 'An unexpected error occurred while fetching top products.',
             ], 500);
         }
     }

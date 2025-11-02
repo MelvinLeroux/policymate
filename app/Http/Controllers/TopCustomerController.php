@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class TopCustomerController extends Controller
 {
     /**
      * Return top customers by revenue.
-     *
-     * @param int $top
-     * @return JsonResponse
      */
     public function topCustomersByRevenue(int $top = 10): JsonResponse
     {
@@ -29,11 +24,11 @@ class TopCustomerController extends Controller
 
             if ($customers->isEmpty()) {
                 return response()->json([
-                    'message' => 'No orders found.'
+                    'message' => 'No orders found.',
                 ], 404);
             }
 
-            $formatted = $customers->map(fn($customer) => [
+            $formatted = $customers->map(fn ($customer) => [
                 'customer_email' => $customer->customer_email,
                 'revenue' => number_format($customer->revenue, 2),
                 'orders_count' => $customer->orders_count,
@@ -48,7 +43,7 @@ class TopCustomerController extends Controller
             Log::error("Top customers query failed: {$e->getMessage()}");
 
             return response()->json([
-                'message' => 'An error occurred while fetching top customers.'
+                'message' => 'An error occurred while fetching top customers.',
             ], 500);
         }
     }
