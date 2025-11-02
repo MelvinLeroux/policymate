@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-            Schema::create('orders', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('order_id')->unique(); 
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->string('order_id')->unique();
             $table->date('order_date');
             $table->string('customer_email');
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      */
